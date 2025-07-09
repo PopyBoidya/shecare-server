@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Building & Floor</title>
+</head>
+<body>
+  <!-- Building Form -->
+  <h2>Submit Building Name</h2>
+  <input type="text" id="buildingName" placeholder="Enter building name">
+  <button onclick="submitBuilding()">Submit Building</button>
+  <p id="buildingMsg"></p>
+
+  <hr>
+
+  <!-- Floor Form -->
+  <h2>Submit Floor Name</h2>
+  <input type="text" id="floorName" placeholder="Enter floor name">
+  <button onclick="submitFloor()">Submit Floor</button>
+  <p id="floorMsg"></p>
+
+  <script>
+    // Submit Building
+    function submitBuilding() {
+      const name = document.getElementById('buildingName').value.trim();
+      const msgEl = document.getElementById('buildingMsg');
+      if (!name) return msgEl.textContent = 'Please enter building name.';
+
+      fetch('http://localhost:5000/building', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name })
+      })
+      .then(res => res.json())
+      .then(data => {
+        msgEl.textContent = '✅ Building submitted successfully.';
+        document.getElementById('buildingName').value = '';
+      })
+      .catch(() => msgEl.textContent = '❌ Failed to submit building.');
+    }
+
+    // Submit Floor
+    function submitFloor() {
+      const name = document.getElementById('floorName').value.trim();
+      const msgEl = document.getElementById('floorMsg');
+      if (!name) return msgEl.textContent = 'Please enter floor name.';
+
+      fetch('http://localhost:5000/floor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name })
+      })
+      .then(res => res.json())
+      .then(data => {
+        msgEl.textContent = '✅ Floor submitted successfully.';
+        document.getElementById('floorName').value = '';
+      })
+      .catch(() => msgEl.textContent = '❌ Failed to submit floor.');
+    }
+
+    // Handle Enter Key for Both Inputs
+    document.getElementById('buildingName').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        submitBuilding();
+      }
+    });
+
+    document.getElementById('floorName').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        submitFloor();
+      }
+    });
+  </script>
+</body>
+</html>
