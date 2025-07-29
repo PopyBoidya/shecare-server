@@ -1,4 +1,4 @@
-# She_Care Server
+## She_Care Server
 
 Backend for SafeCycle – supports anonymous sanitary pad requests and volunteer delivery on campus.
 
